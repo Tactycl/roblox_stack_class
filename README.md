@@ -1,35 +1,104 @@
-# Roblox Stack Class
+# Define the new README content for the Stack class
+stack_readme_content = """# Roblox Stack Class  
 
-A simple Stack class for Roblox useful for things like Undo/Redo systems or a UI Traversal system
+The **Stack Class** is a versatile utility for Roblox, useful for implementing **Undo/Redo systems, UI traversal**, or other Last-In-First-Out (LIFO) operations. It provides a clear API to manage stack data structures efficiently with optional custom cleanup logic.  
 
-# API
+---
 
-.new(), returns (Stack) -> Returns a new Stack Object<br/>
+## Key Benefits  
+- Easy-to-use Stack implementation for Roblox projects.  
+- Supports custom clear functions for safe resource management.  
+- Provides cloning and conversion utilities for flexibility.  
 
-:Push(value: any), returns (number) -> Pushes a new item on the Stack, returns new stack size<br/>
+---
 
-:Pop(), returns (any) -> Removes newest item on the Stack, returns said item<br/>
+## API Reference  
 
-:Remove(index: number), returns (any) -> Removes item from Stack specified with the index in the array, returns said item<br/>
+### Constructor  
+- **`.new(): Stack`**  
+  Creates a new Stack object.  
 
-:Peek(), returns (any) -> Same as :Pop, but doesn't remove item from Stack<br/>
+---
 
-:IsEmpty(), returns (boolean) -> Returns true if nothing is on Stack, otherwise falsse<br/>
+### Basic Stack Operations  
+- **`:Push(value: any): number`**  
+  Pushes a new item onto the stack. Returns the new stack size.  
 
-:Size(), returns (number) -> Returns count of items on Stack<br/>
+- **`:Pop(): any`**  
+  Removes and returns the newest item on the stack.  
 
-:ToTable(), returns ({any}) -> Returns a shallow copy of the current Stack<br/>
+- **`:Remove(index: number): any`**  
+  Removes and returns the item at the specified index.  
 
-:Get(i: number), returns (any) -> Gets item from Stack specified with the index in the array<br/>
+- **`:Peek(): any`**  
+  Returns the newest item without removing it.  
 
-:Clear(), returns none -> Clears current Stack<br/>
+- **`:IsEmpty(): boolean`**  
+  Returns `true` if the stack has no items.  
 
-:Clone(), returns (Stack) -> Creates a new Stack Object and pushes all items from the Stack onto the new one<br/>
+- **`:Size(): number`**  
+  Returns the current number of items in the stack.  
 
-:Contains(value: any), returns (boolean) -> Returns wether or not the item is contained inside the Stack<br/>
+- **`:ToTable(): {any}`**  
+  Returns a shallow copy of the stack as a table.  
 
-:SetClearFunction(callback: (any) -> (boolean)), returns none -> Sets a clear function, this clear function is called inside of :Remove and :Pop, clear function should return wether or not it succeeded or not via a boolean, no return counts as failure<br/>
+- **`:Get(i: number): any`**  
+  Retrieves the item at the specified index.  
 
-:RemoveClearFunction(), returns none -> Removes the clear function and it won't be called later on<br/>
+- **`:Clear()`**  
+  Clears all items from the stack.  
 
-:Destroy(), returns none -> Destroys & Clears Stack Object<br/>
+- **`:Clone(): Stack`**  
+  Creates a new Stack object with all items copied from the current stack.  
+
+- **`:Contains(value: any): boolean`**  
+  Returns `true` if the value exists in the stack.  
+
+---
+
+### Advanced Features  
+- **`:SetClearFunction(callback: (any) -> (boolean))`**  
+  Sets a custom clear function, invoked inside `:Remove` and `:Pop`. Should return a boolean indicating success.  
+
+- **`:RemoveClearFunction()`**  
+  Removes the custom clear function.  
+
+- **`:Destroy()`**  
+  Clears and destroys the stack object completely.  
+
+---
+
+## Example Usage  
+
+```lua
+local Stack = require(path.to.Stack)
+local history = Stack.new()
+
+-- Push values
+history:Push("Step 1")
+history:Push("Step 2")
+
+-- Peek at the top value
+print(history:Peek()) -- Step 2
+
+-- Pop value
+local last = history:Pop()
+print(last) -- Step 2
+
+-- Check size
+print(history:Size()) -- 1
+
+-- Clone stack
+local copy = history:Clone()
+
+-- Set a custom clear function
+history:SetClearFunction(function(item)
+    print("Clearing item:", item)
+    return true
+end)
+
+-- Remove an item with clear function
+history:Remove(1)
+
+history:Destroy()
+```
