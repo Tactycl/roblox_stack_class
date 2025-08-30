@@ -1,5 +1,4 @@
-# Define the new README content for the Stack class
-stack_readme_content = """# Roblox Stack Class  
+# Roblox Stack Class  
 
 The **Stack Class** is a versatile utility for Roblox, useful for implementing **Undo/Redo systems, UI traversal**, or other Last-In-First-Out (LIFO) operations. It provides a clear API to manage stack data structures efficiently with optional custom cleanup logic.  
 
