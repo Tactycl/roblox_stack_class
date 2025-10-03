@@ -2,21 +2,21 @@
 export type Stack = {
 	stack: {any},
 	map: {[any]: number},
-	clear_function: (any) -> (boolean)?,
-	
-	new: () -> (Stack),
-	Push: (self: Stack, value: any) -> (number),
-	Pop: (self: Stack) -> (any),
-	Remove: (self: Stack, index: number) -> (any),
-	Peek: (self: Stack) -> (any),
-	IsEmpty: (self: Stack) -> (boolean),
-	Size: (self: Stack) -> (number),
-	ToTable: (self: Stack) -> ({any}),
-	Get: (self: Stack, i: number) -> (any),
+	clear_function: ((any) -> boolean)?,
+
+	new: () -> Stack,
+	Push: (self: Stack, value: any) -> number,
+	Pop: (self: Stack) -> any,
+	Remove: (self: Stack, index: number) -> any,
+	Peek: (self: Stack) -> any,
+	IsEmpty: (self: Stack) -> boolean,
+	Size: (self: Stack) -> number,
+	ToTable: (self: Stack) -> {any},
+	Get: (self: Stack, i: number) -> any,
 	Clear: (self: Stack) -> (),
-	Clone: (self: Stack) -> (Stack),
-	Contains: (self: Stack, value: any) -> (boolean),
-	SetClearFunction: (self: Stack, callback: (any) -> (boolean)) -> (),
+	Clone: (self: Stack) -> Stack,
+	Contains: (self: Stack, value: any) -> boolean,
+	SetClearFunction: (self: Stack, callback: (any) -> boolean) -> (),
 	RemoveClearFunction: (self: Stack) -> (),
 	Destroy: (self: Stack) -> (),
 }
@@ -25,13 +25,13 @@ local Stack = {}
 Stack.__index = Stack
 
 function Stack.new(): Stack
-	local self = setmetatable({}, Stack)
-	
+	local self = (setmetatable({}, Stack):: unknown):: Stack
+
 	self.stack = {}
 	self.map = {}
 	self.clear_function = nil
-	
-	return (self:: unknown):: Stack
+
+	return self
 end
 
 function Stack:Push(value: any): number
@@ -92,7 +92,7 @@ function Stack:Clear()
 			local success, v = pcall(self.clear_function, item)
 			if not success then
 				warn("[Stack] failed to execute clear function, error: " .. v)
-				
+
 			elseif not v then
 				warn("[Stack] custom clear function failed")
 			end
